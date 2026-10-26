@@ -279,6 +279,18 @@
   comptesteval 'rm -rf dir3; compdef -d tst3'
 0:cleanup dir3 fixture and zstyles
 
+  comptesteval '_tst4() { local -a c; c=(git.lambda.lc/lc-studio/forgejo-actions codeberg.org/nix/forgejo-actions-runner); compadd -M "m:{a-zA-Z}={A-Za-z} l:|=* r:|=*" -a c }; compdef _tst4 tst4'
+  comptesteval "zstyle ':completion:*' menu select"
+  comptest $'tst4 forgejo-actions\t'
+0:substring matcher with misaligned candidates must not fabricate an unambiguous string
+>line: {tst4 codeberg.org/nix/forgejo-actions-runner }{}
+>QUERY:{}
+>C0:{codeberg.org/nix/forgejo-actions-runner}
+>C0:{git.lambda.lc/lc-studio/forgejo-actions}
+
+  comptesteval "zstyle -d ':completion:*' menu; compdef -d tst4"
+0:cleanup substring matcher fixture and zstyles
+
 %clean
 
   zmodload -ui zsh/zpty
